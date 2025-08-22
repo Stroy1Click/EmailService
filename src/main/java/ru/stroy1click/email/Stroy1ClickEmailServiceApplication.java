@@ -2,7 +2,9 @@ package ru.stroy1click.email;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
 @SpringBootApplication
 public class Stroy1ClickEmailServiceApplication {
 

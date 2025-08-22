@@ -1,0 +1,29 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: egormalov.2007@gmail.com
+    password: osrn znaq imvi hppi
+    properties:
+      mail:
+        debug: false
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  application:
+    name: Email-Service
+server:
+  port: 5050
+
+resilience4j:
+  ratelimiter:
+    instances:
+      emailLimiter:
+        limitForPeriod: 100
+        limitRefreshPeriod: 1s
+      confirmationCodeLimiter:
+        limit-for-period: 5
+        limitRefreshPeriod: 1s
