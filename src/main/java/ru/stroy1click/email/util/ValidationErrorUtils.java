@@ -8,6 +8,7 @@ import java.util.List;
 public class ValidationErrorUtils {
 
     public static String collectErrorsToString(List<FieldError> fieldErrors){
-        return fieldErrors.stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().toString().replace("[", "").replace("]", "");
+        return fieldErrors.stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList()
+                .toString().replace("[", "").replace("]", "");
     }
 }

@@ -1,6 +1,7 @@
 package ru.stroy1click.email.controller;
 
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class MailController {
     private final MessageSource messageSource;
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendEmail(@RequestBody SendEmailRequest sendEmailRequest,
+    public ResponseEntity<String> sendEmail(@RequestBody @Valid SendEmailRequest sendEmailRequest,
                                             BindingResult bindingResult){
         if(bindingResult.hasErrors()) throw new ValidationException(ValidationErrorUtils.collectErrorsToString(
                 bindingResult.getFieldErrors()

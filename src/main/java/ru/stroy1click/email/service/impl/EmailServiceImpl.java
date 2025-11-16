@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ru.stroy1click.email.dto.UserDto;
+import ru.stroy1click.email.exception.ServerErrorResponseException;
 import ru.stroy1click.email.props.MailProperties;
 import ru.stroy1click.email.service.EmailService;
 
@@ -32,27 +33,33 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async("asyncTaskExecutor")
-    @SneakyThrows(MessagingException.class)
     public void sendEmail(UserDto user, Integer code) {
         log.info("sendEmail to {}", user.getEmail());
-        MimeMessage mimeMessage = this.mailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-        mimeMessageHelper.setTo(user.getEmail());
-        mimeMessageHelper.setSubject("Stroy1click");
-        String emailContent = getConfirmationEmailContent(user, code);
-        mimeMessageHelper.setText(emailContent, true);
-        this.mailSender.send(mimeMessage);
+        try {
+            MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            mimeMessageHelper.setTo(user.getEmail());
+            mimeMessageHelper.setSubject("Stroy1click");
+            String emailContent = getConfirmationEmailContent(user, code);
+            mimeMessageHelper.setText(emailContent, true);
+            this.mailSender.send(mimeMessage);
+        } catch (MessagingException messagingException){
+            throw new ServerErrorResponseException();
+        }
     }
 
-    @SneakyThrows({IOException.class, TemplateException.class})
     private String getConfirmationEmailContent(UserDto user, Integer code) {
-        StringWriter stringWriter = new StringWriter();
-        Map<String, Object> module = new HashMap<>();
-        module.put("firstName", user.getFirstName());
-        module.put("lastName", user.getLastName());
-        module.put("code", code);
-        configuration.getTemplate("confirmation.ftlh").process(module, stringWriter);
-        return stringWriter.getBuffer().toString();
+        try {
+            StringWriter stringWriter = new StringWriter();
+            Map<String, Object> module = new HashMap<>();
+            module.put("firstName", user.getFirstName());
+            module.put("lastName", user.getLastName());
+            module.put("code", code);
+            this.configuration.getTemplate("confirmation.ftlh").process(module, stringWriter);
+            return stringWriter.getBuffer().toString();
+        } catch (IOException | TemplateException e){
+            throw new ServerErrorResponseException();
+        }
     }
 
 }

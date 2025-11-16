@@ -24,6 +24,3 @@ resilience4j:
       emailLimiter:
         limitForPeriod: 100
         limitRefreshPeriod: 1s
-      confirmationCodeLimiter:
-        limit-for-period: 5
-        limitRefreshPeriod: 1s
