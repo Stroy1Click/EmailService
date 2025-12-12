@@ -5,15 +5,12 @@ import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ru.stroy1click.email.dto.UserDto;
 import ru.stroy1click.email.exception.ServerErrorResponseException;
-import ru.stroy1click.email.props.MailProperties;
 import ru.stroy1click.email.service.EmailService;
 
 import java.io.IOException;
@@ -22,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Async
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
@@ -32,7 +28,6 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
 
     @Override
-    @Async("asyncTaskExecutor")
     public void sendEmail(UserDto user, Integer code) {
         log.info("sendEmail to {}", user.getEmail());
         try {
@@ -43,7 +38,8 @@ public class EmailServiceImpl implements EmailService {
             String emailContent = getConfirmationEmailContent(user, code);
             mimeMessageHelper.setText(emailContent, true);
             this.mailSender.send(mimeMessage);
-        } catch (MessagingException messagingException){
+        } catch (MessagingException e){
+            log.error("sendEmail error ", e);
             throw new ServerErrorResponseException();
         }
     }
@@ -58,6 +54,7 @@ public class EmailServiceImpl implements EmailService {
             this.configuration.getTemplate("confirmation.ftlh").process(module, stringWriter);
             return stringWriter.getBuffer().toString();
         } catch (IOException | TemplateException e){
+            log.error("getConfirmationEmailContent error ", e);
             throw new ServerErrorResponseException();
         }
     }

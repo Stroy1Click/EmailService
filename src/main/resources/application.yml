@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: Email-Service
+  profiles:
+    active: dev
+  config:
+    import: application-prod.yml
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        debug: false
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+server:
+  port: 5050
+
+otel:
+  service:
+    name: "email-service"
+  traces:
+    exporter: "otlp"
+    sampler: "always_on"
+  metrics:
+    exporter: "otlp"
+    export:
+      interval: 5000
+  logs:
+    exporter: "otlp"
+  exporter:
+    otlp:
+      protocol: "grpc"
+      endpoint: "http://localhost:4317"
+
+resilience4j:
+  ratelimiter:
+    instances:
+      emailLimiter:
+        limitForPeriod: 100
+        limitRefreshPeriod: 1s
