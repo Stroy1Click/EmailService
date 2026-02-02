@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.stroy1click.email.exception.ValidationException;
-import ru.stroy1click.email.model.SendEmailRequest;
+import ru.stroy1click.email.dto.SendEmailRequest;
 import ru.stroy1click.email.service.EmailService;
 import ru.stroy1click.email.util.ValidationErrorUtils;
 

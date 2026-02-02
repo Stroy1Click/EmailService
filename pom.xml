@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.stroy1click</groupId>
-    <artifactId>Stroy1Click-EmailService</artifactId>
+    <artifactId>email-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Stroy1Click - EmailService</name>
-    <description>Stroy1Click - EmailService</description>
+    <name>EmailService</name>
+    <description>Сервис отправки email</description>
     <url/>
     <licenses>
         <license/>
@@ -94,12 +94,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-testcontainers</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-spring-boot-starter</artifactId>
-            <version>${otel.version}</version>
         </dependency>
 
         <dependency>

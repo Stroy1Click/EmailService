@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import ru.stroy1click.email.dto.UserDto;
-import ru.stroy1click.email.model.Role;
-import ru.stroy1click.email.model.SendEmailRequest;
+import ru.stroy1click.email.dto.Role;
+import ru.stroy1click.email.dto.SendEmailRequest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
