@@ -16,11 +16,11 @@ public class MailConfig {
     @Bean
     public JavaMailSender mailSender(){
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost(mailProperties.getHost());
-        javaMailSender.setPort(mailProperties.getPort());
-        javaMailSender.setUsername(mailProperties.getUsername());
-        javaMailSender.setPassword(mailProperties.getPassword());
-        javaMailSender.setJavaMailProperties(mailProperties.getProperties());
+        javaMailSender.setHost(this.mailProperties.getHost());
+        javaMailSender.setPort(this.mailProperties.getPort());
+        javaMailSender.setUsername(this.mailProperties.getUsername());
+        javaMailSender.setPassword(this.mailProperties.getPassword());
+        javaMailSender.setJavaMailProperties(this.mailProperties.getProperties());
         javaMailSender.getJavaMailProperties();
         return javaMailSender;
     }

@@ -1,4 +1,4 @@
-package ru.stroy1click.email.model;
+package ru.stroy1click.email.dto;
 
 public enum Role {
 
