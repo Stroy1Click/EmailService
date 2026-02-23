@@ -1,4 +1,4 @@
-package ru.stroy1click.email.unit;
+package ru.stroy1click.email.service;
 
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
@@ -11,12 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import ru.stroy1click.email.dto.UserDto;
-import ru.stroy1click.email.exception.ServerErrorResponseException;
+import ru.stroy1click.common.command.SendEmailCommand;
+import ru.stroy1click.common.exception.ServiceErrorResponseException;
 import ru.stroy1click.email.service.impl.EmailServiceImpl;
 
 import java.io.IOException;
@@ -28,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class EmailServiceTest {
 
     @Mock
@@ -42,12 +42,15 @@ public class EmailServiceTest {
     @InjectMocks
     private EmailServiceImpl emailService;
 
-    private UserDto user;
+    private SendEmailCommand sendEmailCommand;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        this.user = UserDto.builder().email("test@mail.com").firstName("John").lastName("Doe").build();
+        sendEmailCommand = SendEmailCommand.builder()
+                .email("test@mail.com")
+                .firstName("John")
+                .lastName("Doe")
+                .build();
     }
 
     @Test
@@ -63,7 +66,7 @@ public class EmailServiceTest {
             return null;
         }).when(this.freemarkerTemplate).process(any(), any(StringWriter.class));
 
-        this.emailService.sendEmail(this.user, 777);
+        this.emailService.sendEmail(sendEmailCommand);
 
         verify(this.mailSender, times(1)).createMimeMessage();
         verify(this.mailSender, times(1)).send(mimeMessage);
@@ -79,9 +82,9 @@ public class EmailServiceTest {
         when(this.configuration.getTemplate("confirmation.ftlh"))
                 .thenThrow(new IOException("not found"));
 
-        ServerErrorResponseException exception = assertThrows(
-                ServerErrorResponseException.class,
-                () -> this.emailService.sendEmail(this.user, 123)
+        ServiceErrorResponseException exception = assertThrows(
+                ServiceErrorResponseException.class,
+                () -> this.emailService.sendEmail(sendEmailCommand)
         );
 
         assertNotNull(exception);
@@ -98,9 +101,9 @@ public class EmailServiceTest {
         doThrow(new TemplateException("fail", (Environment) null))
                 .when(this.freemarkerTemplate).process(any(), any());
 
-        ServerErrorResponseException exception = assertThrows(
-                ServerErrorResponseException.class,
-                () -> this.emailService.sendEmail(this.user, 200)
+        ServiceErrorResponseException exception = assertThrows(
+                ServiceErrorResponseException.class,
+                () -> this.emailService.sendEmail(sendEmailCommand)
         );
 
         assertNotNull(exception);
@@ -122,7 +125,7 @@ public class EmailServiceTest {
         doThrow(new MailException("SMTP error") {
         }).when(this.mailSender).send(any(MimeMessage.class));
 
-        assertThrows(MailException.class, () -> this.emailService.sendEmail(this.user, 300));
+        assertThrows(MailException.class, () -> this.emailService.sendEmail(sendEmailCommand));
     }
 
 }

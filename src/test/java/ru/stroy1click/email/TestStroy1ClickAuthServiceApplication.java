@@ -1,8 +1,7 @@
-package ru.stroy1click.email.integration;
+package ru.stroy1click.email;
 
 import org.springframework.boot.SpringApplication;
 import org.testcontainers.utility.TestcontainersConfiguration;
-import ru.stroy1click.email.Stroy1ClickEmailServiceApplication;
 
 public class TestStroy1ClickAuthServiceApplication {
 

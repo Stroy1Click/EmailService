@@ -1,4 +1,4 @@
-package ru.stroy1click.email.integration;
+package ru.stroy1click.email.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import ru.stroy1click.email.dto.SendEmailRequest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class EmailTests {
+public class EmailControllerIT {
 
     @Autowired
     private TestRestTemplate restTemplate;
