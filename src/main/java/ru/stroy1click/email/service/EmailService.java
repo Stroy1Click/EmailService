@@ -1,8 +1,8 @@
 package ru.stroy1click.email.service;
 
-import ru.stroy1click.email.dto.UserDto;
+import ru.stroy1click.common.command.SendEmailCommand;
 
 public interface EmailService {
 
-    void sendEmail(UserDto user, Integer code);
+    void sendEmail(SendEmailCommand emailEvent);
 }
