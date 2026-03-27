@@ -33,11 +33,10 @@
 <body>
 <div id="body">
     <div id="div">
-        <h1 style="text-align: center">Registration</h1>
+        <h1 style="text-align: center">Регистрация</h1>
         <p>Здравствуйте, ${firstName} ${lastName}!</p>
         <p>Ваш код: ${code}.</p>
         <p>С уважением, <br>Stroy1click</p>
-        <a id="a" href="https://avatars.mds.yandex.net/i?id=04b8888297f1932da336421ecc698f87_l-4031997-images-thumbs&n=13">Github</a>
     </div>
 </div>
 </body>

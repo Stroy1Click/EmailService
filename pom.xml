@@ -35,6 +35,8 @@
         <docker.image.name>email</docker.image.name>
         <docker-maven-plugin.version>0.45.0</docker-maven-plugin.version>
         <common.version>0.0.1-SNAPSHOT</common.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
